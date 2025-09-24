@@ -6,7 +6,6 @@ class Scene{
         this.sceneObjects = []; //this will store the triangles to be rendered
         this.triangles = [];
         
-
         //camera settings
         this.forwardSpeed = 1
         this.backwardSpeed = -1
@@ -24,6 +23,11 @@ class Scene{
         this.xRotate = 0
         this.yRotate = 0
         this.zRotate = 0
+
+
+        this.lightSources = [
+            new Vec3(100, 100, 100)
+        ]
     }
     generateBlockWorld(gridSize = 20, blockSize = 20, y = -100){
         let blocks = []
@@ -107,6 +111,11 @@ class Scene{
     start(){
         this.userInput()
         this.generateBlockWorld()
+        
+        this.triangles.forEach(triangle => {
+            triangle.calculateNormal()
+            triangle.calculateIllumination(this.lightSources)
+        })
         this.triangles.sort((a, b) => b.dist() - a.dist())
         this.draw(this.ctx, this.canvas)
     }
