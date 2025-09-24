@@ -7,13 +7,8 @@ class Scene{
         this.triangles = [];
         
         //camera settings
-        this.forwardSpeed = 1
-        this.backwardSpeed = -1
-
-        this.rightSpeed = 1
-        this.leftSpeed = -1
-
-        this.upSpeed = 1
+        this.turnSpeed = .05
+        this.moveSpeed = 4
         this.downSpeed = -1
 
         this.xSpeed = 0
@@ -26,10 +21,10 @@ class Scene{
 
 
         this.lightSources = [
-            new Vec3(100, 100, 100)
+            new Vec3(100, -1000, 100)
         ]
     }
-    generateBlockWorld(gridSize = 20, blockSize = 20, y = -100){
+    generateBlockWorld(gridSize = 50, blockSize = 20, y = -100){
         let blocks = []
         for(let x = -gridSize / 2; x < gridSize / 2; x++){
             for(let z = -gridSize / 2; z < gridSize / 2; z++){
@@ -54,28 +49,28 @@ class Scene{
         document.addEventListener("keydown", (event) => { 
             switch(event.code){
                 case "KeyW":
-                    this.zSpeed = -1
+                    this.zSpeed = -this.moveSpeed
                     break;
                 case "KeyS":
-                    this.zSpeed = 1
+                    this.zSpeed = this.moveSpeed
                     break;
                 case "KeyA":
-                    this.xSpeed = 1
+                    this.xSpeed = this.moveSpeed
                     break;
                 case "KeyD":
-                    this.xSpeed = -1
+                    this.xSpeed = -this.moveSpeed
                     break;
                 case "ShiftLeft":
-                    this.ySpeed = 1
+                    this.ySpeed = this.moveSpeed
                     break;
                 case "Space":
-                    this.ySpeed = -1
+                    this.ySpeed = -this.moveSpeed
                     break;
                 case "ArrowLeft":
-                    this.yRotate = .01
+                    this.yRotate = this.turnSpeed
                     break;
                 case "ArrowRight":
-                    this.yRotate = -.01
+                    this.yRotate = -this.turnSpeed
                     break;
             }
         })
@@ -121,7 +116,8 @@ class Scene{
     }
 
     draw(ctx, canvas){
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.ctx.fillStyle = "black"; // or any color: "#222", "rgb(10,10,30)", etc.
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.triangles.sort((a, b) => b.dist() - a.dist()) //sort the triangles from back to front
         this.triangles.forEach(triangle => {
             triangle.rotate(this.xRotate, this.yRotate, this.zRotate);

@@ -136,13 +136,13 @@ class Triangle extends Shape3D{
             }
             let intensity = Math.max(0, dotProd) // clamp to avoid negatives
             
-            // this.fillColor = color(
-            //   baseColor.r * intensity,
-            //   baseColor.g * intensity,
-            //   baseColor.b * intensity
-            // )
-            this.fillColor = (intensity) * 255 + 30
-                
+         let baseColor = { r: Math.random() * 255, g: Math.random() * 255, b: Math.random() * 255 }; // example base color
+
+        let r = Math.floor(baseColor.r * intensity + 30);
+        let g = Math.floor(baseColor.g * intensity + 30);
+        let b = Math.floor(baseColor.b * intensity + 30);
+
+        this.fillColor = `rgb(${r}, ${g}, ${b})`;
         })
     }
     render(){
